@@ -1,0 +1,82 @@
+[gd_scene load_steps=13 format=3 uid="uid://c2ji1x6q7arqi"]
+
+[ext_resource type="Shader" path="res://VolumetricClouds/clouds.gdshader" id="1_c0aqy"]
+[ext_resource type="PackedScene" uid="uid://bip5ddmsxxggy" path="res://HexGridSystem.tscn" id="1_gop6o"]
+[ext_resource type="Script" path="res://Scripts/free_look_camera.gd" id="1_vniw5"]
+[ext_resource type="CompressedTexture3D" uid="uid://dbfbysid168mx" path="res://VolumetricClouds/perlworlnoise.tga" id="2_sm75j"]
+[ext_resource type="Shader" path="res://Shaders/HexTile.gdshader" id="3_bxi8t"]
+[ext_resource type="Texture2D" uid="uid://dfkye0uf4i6w1" path="res://VolumetricClouds/weather.bmp" id="3_dw3ab"]
+[ext_resource type="CompressedTexture3D" uid="uid://c4dp6g6gouj2b" path="res://VolumetricClouds/worlnoise.bmp" id="4_pquka"]
+[ext_resource type="PackedScene" uid="uid://b7u26g7wctcdn" path="res://HexGridUI.tscn" id="8_an31g"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_74s17"]
+shader = ExtResource("1_c0aqy")
+shader_parameter/_density = 0.05
+shader_parameter/_time_offset = 0.0
+shader_parameter/_time_scale = 1.0
+shader_parameter/cloud_coverage = 0.25
+shader_parameter/exposure = 0.1
+shader_parameter/ground_color = Color(1, 1, 1, 1)
+shader_parameter/mie = 0.005
+shader_parameter/mie_color = Color(0.63, 0.77, 0.92, 1)
+shader_parameter/mie_eccentricity = 0.8
+shader_parameter/perlworlnoise = ExtResource("2_sm75j")
+shader_parameter/rayleigh = 2.0
+shader_parameter/rayleigh_color = Color(0.26, 0.41, 0.58, 1)
+shader_parameter/sun_disk_scale = 3.628
+shader_parameter/turbidity = 10.0
+shader_parameter/weathermap = ExtResource("3_dw3ab")
+shader_parameter/worlnoise = ExtResource("4_pquka")
+
+[sub_resource type="Sky" id="Sky_tccvc"]
+sky_material = SubResource("ShaderMaterial_74s17")
+
+[sub_resource type="Environment" id="Environment_hhp1f"]
+background_mode = 2
+sky = SubResource("Sky_tccvc")
+ambient_light_source = 3
+reflected_light_source = 2
+tonemap_mode = 3
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_h7rsn"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("3_bxi8t")
+shader_parameter/coast = null
+shader_parameter/grass = Quaternion(0, 1, 0, 1)
+shader_parameter/snow = null
+shader_parameter/underwater = Quaternion(0, 0, 0, 0)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_hhp1f")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.882094, 0.471074, 0, -0.471074, 0.882094, 0, 1.70835, 2.73919)
+shadow_enabled = true
+
+[node name="LightmapGI" type="LightmapGI" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.9845, -16.9431, -29.3495)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.96061, 0.277902, 0, -0.277902, 0.96061, 0, 0, 0)
+script = ExtResource("1_vniw5")
+
+[node name="HexGrid" parent="." instance=ExtResource("1_gop6o")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+material_override = SubResource("ShaderMaterial_h7rsn")
+GridSize = 50
+HeightStrength = 5.0
+WaterHeight = 0.51
+NumInstances = 200000
+Underwater = Color(0.439216, 0.219608, 0.12549, 1)
+Grass = Color(0.176471, 0.301961, 0, 1)
+Coast = Color(1, 0.717647, 0.447059, 1)
+Snow = Color(1, 1, 1, 1)
+
+[node name="Control" parent="." instance=ExtResource("8_an31g")]
+offset_left = 50.0
+offset_top = 50.0
+offset_right = 50.0
+offset_bottom = 50.0

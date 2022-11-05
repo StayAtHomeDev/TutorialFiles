@@ -1,0 +1,176 @@
+[gd_scene load_steps=5 format=3 uid="uid://b7u26g7wctcdn"]
+
+[ext_resource type="Script" path="res://HexGridUI.gd" id="1_ocb85"]
+
+[sub_resource type="Theme" id="Theme_w4br7"]
+
+[sub_resource type="SystemFont" id="SystemFont_f450x"]
+subpixel_positioning = 0
+
+[sub_resource type="LabelSettings" id="LabelSettings_wx54w"]
+font = SubResource("SystemFont_f450x")
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ocb85")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_right = 122.0
+offset_bottom = 146.0
+theme = SubResource("Theme_w4br7")
+
+[node name="Label_GridSize" type="Label" parent="VBoxContainer"]
+offset_right = 169.0
+offset_bottom = 26.0
+text = "Grid Size"
+label_settings = SubResource("LabelSettings_wx54w")
+
+[node name="GridSize" type="SpinBox" parent="VBoxContainer"]
+offset_top = 30.0
+offset_right = 169.0
+offset_bottom = 61.0
+focus_mode = 1
+max_value = 1000.0
+value = 50.0
+
+[node name="Label_Seed" type="Label" parent="VBoxContainer"]
+offset_top = 65.0
+offset_right = 169.0
+offset_bottom = 91.0
+text = "Seed"
+label_settings = SubResource("LabelSettings_wx54w")
+
+[node name="Seed" type="SpinBox" parent="VBoxContainer"]
+offset_top = 95.0
+offset_right = 169.0
+offset_bottom = 126.0
+focus_mode = 1
+max_value = 10000.0
+value = 50.0
+
+[node name="Label_HeightStrength" type="Label" parent="VBoxContainer"]
+offset_top = 130.0
+offset_right = 169.0
+offset_bottom = 156.0
+text = "Height Strength"
+
+[node name="Strength" type="HSlider" parent="VBoxContainer"]
+offset_top = 160.0
+offset_right = 169.0
+offset_bottom = 176.0
+max_value = 10.0
+
+[node name="Label_Frequency" type="Label" parent="VBoxContainer"]
+offset_top = 180.0
+offset_right = 169.0
+offset_bottom = 206.0
+text = "Frequency"
+
+[node name="Frequency" type="HSlider" parent="VBoxContainer"]
+offset_top = 210.0
+offset_right = 169.0
+offset_bottom = 226.0
+max_value = 0.1
+step = 0.005
+
+[node name="Label_Octaves" type="Label" parent="VBoxContainer"]
+offset_top = 230.0
+offset_right = 169.0
+offset_bottom = 256.0
+text = "Octaves"
+
+[node name="Octaves" type="HSlider" parent="VBoxContainer"]
+offset_top = 260.0
+offset_right = 169.0
+offset_bottom = 276.0
+max_value = 7.0
+
+[node name="Label_Lacunarity" type="Label" parent="VBoxContainer"]
+offset_top = 280.0
+offset_right = 169.0
+offset_bottom = 306.0
+text = "Lacunarity"
+
+[node name="Lacunarity" type="HSlider" parent="VBoxContainer"]
+offset_top = 310.0
+offset_right = 169.0
+offset_bottom = 326.0
+max_value = 5.0
+step = 0.1
+
+[node name="Label_Gain" type="Label" parent="VBoxContainer"]
+offset_top = 330.0
+offset_right = 169.0
+offset_bottom = 356.0
+text = "Gain"
+
+[node name="Gain" type="HSlider" parent="VBoxContainer"]
+offset_top = 360.0
+offset_right = 169.0
+offset_bottom = 376.0
+max_value = 1.0
+step = 0.05
+
+[node name="Label_NoiseType" type="Label" parent="VBoxContainer"]
+offset_top = 380.0
+offset_right = 169.0
+offset_bottom = 406.0
+text = "NoiceType"
+
+[node name="Noise" type="OptionButton" parent="VBoxContainer"]
+offset_top = 410.0
+offset_right = 169.0
+offset_bottom = 441.0
+item_count = 4
+selected = 0
+popup/item_0/text = "Perlin"
+popup/item_0/id = 3
+popup/item_1/text = "Cellular"
+popup/item_1/id = 2
+popup/item_2/text = "Simplex"
+popup/item_2/id = 0
+popup/item_3/text = "Simplex Smooth"
+popup/item_3/id = 1
+
+[node name="Label_FractalType" type="Label" parent="VBoxContainer"]
+offset_top = 445.0
+offset_right = 169.0
+offset_bottom = 471.0
+text = "Fractal Type"
+
+[node name="Fractal" type="OptionButton" parent="VBoxContainer"]
+offset_top = 475.0
+offset_right = 169.0
+offset_bottom = 506.0
+item_count = 4
+selected = 0
+popup/item_0/text = "None"
+popup/item_0/id = 0
+popup/item_1/text = "FBM"
+popup/item_1/id = 1
+popup/item_2/text = "Ridged"
+popup/item_2/id = 2
+popup/item_3/text = "Ping Pong"
+popup/item_3/id = 3
+
+[node name="UpdateUI" type="Button" parent="VBoxContainer"]
+offset_top = 510.0
+offset_right = 169.0
+offset_bottom = 541.0
+text = "Update"
+
+[connection signal="value_changed" from="VBoxContainer/GridSize" to="." method="_on_grid_size_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/Seed" to="." method="_on_seed_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/Strength" to="." method="_on_h_slider_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/Frequency" to="." method="_on_frequency_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/Octaves" to="." method="_on_octaves_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/Lacunarity" to="." method="_on_lacunarity_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/Gain" to="." method="_on_gain_value_changed"]
+[connection signal="item_selected" from="VBoxContainer/Noise" to="." method="_on_option_button_item_selected"]
+[connection signal="item_selected" from="VBoxContainer/Fractal" to="." method="_on_fractal_item_selected"]
+[connection signal="pressed" from="VBoxContainer/UpdateUI" to="." method="_on_update_ui_pressed"]
